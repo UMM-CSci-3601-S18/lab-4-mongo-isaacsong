@@ -2,10 +2,10 @@ package umm3601.todo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
-import org.bson.types.ObjectId;
+
 import spark.Request;
 import spark.Response;
-import umm3601.todo.TodoController;
+
 
 public class TodoRequestHandler {
     private final TodoController todoController;
@@ -106,5 +106,10 @@ public class TodoRequestHandler {
             ree.printStackTrace();
             return null;
         }
+    }
+
+    //For getting to-do summary
+    public String getTodoSummary(Request req, Response res) {
+        return todoController.getTodoSummary();
     }
 }

@@ -1,13 +1,22 @@
 package umm3601.todo;
 
 import com.google.gson.Gson;
-import com.mongodb.*;
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.util.JSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -66,12 +75,24 @@ public class TodoController {
         Document filterDoc = new Document();
 
         if (queryParams.containsKey("owner")) {
-            String targetOwner = (queryParams.get("owner")[0]);
-            filterDoc = filterDoc.append("owner", targetOwner);
+            String targetContent = queryParams.get("owner")[0];
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetContent);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("owner", contentRegQuery);
+
+        }
+
+        if (queryParams.containsKey("category")) {
+            String targetContent = (queryParams.get("category")[0]);
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetContent);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("category", contentRegQuery);
         }
 
         if (queryParams.containsKey("status")) {
-            String targetStatus = (queryParams.get("status")[0]);
+            boolean targetStatus = Boolean.parseBoolean(queryParams.get("status")[0]);
             filterDoc = filterDoc.append("status", targetStatus);
         }
 
@@ -117,5 +138,34 @@ public class TodoController {
             me.printStackTrace();
             return null;
         }
+    }
+
+
+    //Add to-do summary
+    public String getTodoSummary() {
+
+        //get number of todos complete for each owner
+        AggregateIterable<Document> totalByOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.group("$owner", Accumulators.sum("count", 1))
+            )
+        );
+
+        AggregateIterable<Document> doneByOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("status", true)),
+                Aggregates.group("$owner", Accumulators.sum("count", 1))
+            )
+        );
+
+        return JSON.serialize(doneByOwner);
+    }
+
+    public static void main(String[] args) {
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase userDatabase = mongoClient.getDatabase("dev");
+        TodoController todoController = new TodoController(userDatabase);
+
+        todoController.getTodoSummary();
     }
 }
