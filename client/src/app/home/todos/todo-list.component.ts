@@ -19,19 +19,15 @@ export class TodoListComponent implements OnInit {
     // These are the target values used in searching.
     // We should rename them to make that clearer.
     public todoOwner: string;
-    public todoID: string;
     public todoStatus: string;
     public todoBody: string;
     public todoCategory: string;
 
-
-
-
-
-
-
     // The ID of the
     private highlightedID: {'$oid': string} = { '$oid': '' };
+
+
+
 
     // Inject the TodoListService into this component.
     constructor(public todoListService: TodoListService, public dialog: MatDialog) {
@@ -43,7 +39,7 @@ export class TodoListComponent implements OnInit {
     }
 
     openDialog(): void {
-        const newTodo: Todo = {_id: '', owner: '', status: true, body: '', category: ''};
+        const newTodo: Todo = {_id: '', owner: '', status: false, body: '', category: ''};
         const dialogRef = this.dialog.open(AddTodoComponent, {
             width: '500px',
             data: { todo: newTodo }
