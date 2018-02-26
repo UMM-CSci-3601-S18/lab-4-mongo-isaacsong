@@ -102,6 +102,25 @@ public class TodoControllerSpec {
             assertEquals("Names should match", expectedNames, owners);
         }
 
+    @Test
+    public void getTodoByOwner(){
+        Map<String, String[]> argMap = new HashMap<>();
+        //Mongo in TodoController is doing a regex search so can just take a Java Reg. Expression
+        //This will search the owners containing "i"
+        argMap.put("owner", new String[] { "i" });
+        String jsonResult = todoController.getTodos(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        assertEquals("Should be 2 todos", 2, docs.size());
+        List<String> owner = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwner = Arrays.asList("Chris","Jamie");
+        assertEquals("Owners should match", expectedOwner, owner);
+
+    }
+
         @Test
         public void getTodosByStatus() {
             Map<String, String[]> argMap = new HashMap<>();
@@ -119,6 +138,25 @@ public class TodoControllerSpec {
             assertEquals("Names should match", expectedNames, owners);
         }
 
+    @Test
+    public void getTodoByCategory(){
+        Map<String, String[]> argMap = new HashMap<>();
+        //Mongo in TodoController is doing a regex search so can just take a Java Reg. Expression
+        //This will search the category containing an m or c
+        argMap.put("category", new String[] { "[e,i]" });
+        String jsonResult = todoController.getTodos(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        assertEquals("Should be 3 todos", 3, docs.size());
+        List<String> owner = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwner = Arrays.asList("Chris", "Jamie", "Pat");
+        assertEquals("Owners should match", expectedOwner, owner);
+
+    }
+
         @Test
         public void getSamById() {
             String jsonResult = todoController.getTodo(samsId.toHexString());
@@ -135,7 +173,7 @@ public class TodoControllerSpec {
 
             assertNotNull("Add new todo should return true when todo is added,", newId);
             Map<String, String[]> argMap = new HashMap<>();
-            argMap.put("status", new String[] { "true" });
+            argMap.put("owner", new String[] { "Brian" });
             String jsonResult = todoController.getTodos(argMap);
             BsonArray docs = parseJsonArray(jsonResult);
 
@@ -165,6 +203,8 @@ public class TodoControllerSpec {
             assertEquals("Names should match", expectedName, owner);
 
         }
+
+
 
 
 }
