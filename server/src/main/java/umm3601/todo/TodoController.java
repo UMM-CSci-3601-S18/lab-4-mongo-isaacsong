@@ -163,8 +163,8 @@ public class TodoController {
 
     public static void main(String[] args) {
         MongoClient mongoClient = new MongoClient();
-        MongoDatabase userDatabase = mongoClient.getDatabase("dev");
-        TodoController todoController = new TodoController(userDatabase);
+        MongoDatabase todoDatabase = mongoClient.getDatabase("dev");
+        TodoController todoController = new TodoController(todoDatabase);
 
         todoController.getTodoSummary();
     }
