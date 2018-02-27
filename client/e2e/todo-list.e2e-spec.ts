@@ -1,4 +1,4 @@
-/*import {TodoPage} from './todo-list.po';
+import {TodoPage} from './todo-list.po';
 import {browser, protractor, element, by} from 'protractor';
 import {Key} from 'selenium-webdriver';
 
@@ -30,126 +30,112 @@ describe('Todo list', () => {
         expect(page.getTodoTitle()).toEqual('Todos');
     });
 
-
-
-
+    //test filter by owner
     it('should type something in filter owner box and check that it returned correct element', () => {
+
         page.navigateTo();
-        page.typeAOwner('t');
-        expect(page.getUniqueTodo('kittypage@surelogic.com')).toEqual('Kitty Page');
+        page.clickInput();
+        page.typeAOwner("d");
+        expect(page.getUniqueTodo("58af3a600343927e48e8721f")).toEqual("Dawn");
         page.backspace();
-        page.typeAOwner('lynn');
-        expect(page.getUniqueTodo('lynnferguson@niquent.com')).toEqual('Lynn Ferguson');
+
     });
 
-
-
-    it('Should open the expansion panel and get the company', () => {
+    //test filter by category
+    it('should type something in filter category box and check that it returned correct element', () => {
         page.navigateTo();
-        page.getCompany('DATA');
+        page.clickInput();
+        page.typeACategory('homework');
         browser.actions().sendKeys(Key.ENTER).perform();
+        expect(page.getUniqueTodo('58af3a600343927e48e87217')).toEqual('Fry');
+    });
 
-        expect(page.getUniqueUser('valerieerickson@datagene.com')).toEqual('Valerie Erickson');
-
-        // This is just to show that the panels can be opened
-        browser.actions().sendKeys(Key.TAB).perform();
+    //test filter by body
+    it('Nostrud ullamco labore exercitation magna', () => {
+        page.navigateTo();
+        page.clickInput();
+        page.typeABody('labore');
         browser.actions().sendKeys(Key.ENTER).perform();
+        expect(page.getUniqueTodo('58af3a600343927e48e87216')).toEqual('Blanche');
     });
 
-    it('Should allow us to filter users based on company', () => {
+
+    //test filter by status
+    it('should select filter by status: \'true\' radio button and check that complete status is returned', () => {
         page.navigateTo();
-        page.getCompany('o');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(4);
-        });
-        expect(page.getUniqueUser('conniestewart@ohmnet.com')).toEqual('Connie Stewart');
-        expect(page.getUniqueUser('stokesclayton@momentia.com')).toEqual('Stokes Clayton');
-        expect(page.getUniqueUser('kittypage@surelogic.com')).toEqual('Kitty Page');
-        expect(page.getUniqueUser('margueritenorton@recognia.com')).toEqual('Marguerite Norton');
-    });
+        page.clickInput();
+        page.chooseTureStatus();
+        expect(page.getUniqueTodo('58af3a600343927e48e87216')).toEqual('Blanche');
+    })
 
-    it('Should allow us to clear a search for company and then still successfully search again', () => {
+    it('should select filter by status: \'false\' radio button and check that incomplete status is returned', () => {
         page.navigateTo();
-        page.getCompany('m');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(2);
-        });
-        page.clickClearCompanySearch();
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(10);
-        });
-        page.getCompany('ne');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(3);
-        });
-    });
+        page.clickInput();
+        page.chooseFalseStatus();
+        expect(page.getUniqueTodo('58af3a600343927e48e87217')).toEqual('Fry');
+    })
 
-    it('Should allow us to search for company, update that search string, and then still successfully search', () => {
+
+
+    //test for combination
+    it('should type something in filter by owner box, filter by status box, filter by body box, and filter by category and check that it returned correct element', () => {
+
         page.navigateTo();
-        page.getCompany('o');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(4);
-        });
-        element(by.id('userCompany')).sendKeys('h');
-        element(by.id('submit')).click();
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(1);
-        });
+        page.clickInput();
+        page.typeAOwner("Fry");
+        page.chooseFalseStatus();
+        page.typeABody("v");
+        page.typeACategory("v");
+        expect(page.getUniqueTodo("58af3a600343927e48e87223")).toEqual("Fry");
+
     });
 
-// For examples testing modal dialog related things, see:
-// https://code.tutsplus.com/tutorials/getting-started-with-end-to-end-testing-in-angular-using-protractor--cms-29318
-// https://github.com/blizzerand/angular-protractor-demo/tree/final
 
-    it('Should have an add user button', () => {
+    //test for add a new to-do
+    it('Should have an add todo button', () => {
         page.navigateTo();
         expect(page.buttonExists()).toBeTruthy();
     });
 
-    it('Should open a dialog box when add user button is clicked', () => {
+    //checks if a dialog box is opened or not
+    it('Should open a dialog box when add todo button is clicked', () => {
         page.navigateTo();
-        expect(element(by.css('add-user')).isPresent()).toBeFalsy('There should not be a modal window yet');
-        element(by.id('addNewUser')).click();
-        expect(element(by.css('add-user')).isPresent()).toBeTruthy('There should be a modal window now');
+        expect(element(by.css('add-todo')).isPresent()).toBeFalsy('There should not be a modal window yet');
+        element(by.id('addNewTodo')).click();
+        expect(element(by.css('add-todo')).isPresent()).toBeTruthy('There should be a modal window now');
     });
-
-    it('Should actually add the user with the information we put in the fields', () => {
+    // checks if we actually add things to the database or not
+    it('Should actually add the Todo with the information we put in the fields', () => {
         page.navigateTo();
-        page.clickAddUserButton();
-        element(by.id('nameField')).sendKeys('Tracy Kim');
-        // Need to use backspace because the default value is -1. If that changes, this will change too.
-        element(by.id('ageField')).sendKeys(protractor.Key.BACK_SPACE).then(function() {
-            element(by.id('ageField')).sendKeys(protractor.Key.BACK_SPACE).then(function() {
-                element(by.id('ageField')).sendKeys('26');
-            });
-        });
-        element(by.id('companyField')).sendKeys('Awesome Startup, LLC');
-        element(by.id('emailField')).sendKeys('tracy@awesome.com');
-        element(by.id('confirmAddUserButton')).click();
-        // This annoying delay is necessary, otherwise it's possible that we execute the `expect`
-        // line before the add user has been fully processed and the new user is available
-        // in the list.
+        page.clickAddTodoButton();
+        element(by.id('ownerField')).sendKeys('Yujing Song');
+        element(by.id('categoryField')).sendKeys('Player');
+        element(by.id('bodyField')).sendKeys('is a hardworking girl');
+        element(by.id('statusField')).sendKeys('true');
+        element(by.id('confirmAddTodoButton')).click();
         setTimeout(() => {
-            expect(page.getUniqueUser('tracy@awesome.com')).toMatch('Tracy Kim.*'); // toEqual('Tracy Kim');
+            expect(page.getUniqueTodoByCategory('Player')).toMatch('Yujing Song');
         }, 10000);
     });
-
-    it('Should allow us to put information into the fields of the add user dialog', () => {
-        page.navigateTo();
-        page.clickAddUserButton();
-        expect(element(by.id('nameField')).isPresent()).toBeTruthy('There should be a name field');
-        element(by.id('nameField')).sendKeys('Dana Jones');
-        expect(element(by.id('ageField')).isPresent()).toBeTruthy('There should be an age field');
-        // Need to use backspace because the default value is -1. If that changes, this will change too.
-        element(by.id('ageField')).sendKeys(protractor.Key.BACK_SPACE).then(function() {
-            element(by.id('ageField')).sendKeys(protractor.Key.BACK_SPACE).then(function() {
-                element(by.id('ageField')).sendKeys('24');
-            });
-        });
-        expect(element(by.id('companyField')).isPresent()).toBeTruthy('There should be a company field');
-        element(by.id('companyField')).sendKeys('Awesome Startup, LLC');
-        expect(element(by.id('emailField')).isPresent()).toBeTruthy('There should be an email field');
-        element(by.id('emailField')).sendKeys('dana@awesome.com');
-        element(by.id('exitWithoutAddingButton')).click();
-    });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

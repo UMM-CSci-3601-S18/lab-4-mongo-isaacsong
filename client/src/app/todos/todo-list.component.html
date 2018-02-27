@@ -20,9 +20,9 @@
                         <!--Our Angular feature-->
                         <label> Please select status:</label>
                         <select name="dropdown" id="todoStatus" #input placeholder="Filter by status" (input)="todoStatus = $event.target.value">
-                            <option value=""></option>
-                            <option value="true">true</option>
-                            <option value="false">false</option>
+                            <option value="" id="empty"></option>
+                            <option value="true" id="true">true</option>
+                            <option value="false" id="false">false</option>
                         </select>
                     </form>
 
@@ -66,7 +66,7 @@
                 <mat-accordion *ngIf="todos; else todosError" >
                     <mat-expansion-panel #elem class="todos" [id]="todo._id['$oid']" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoStatus, todoBody, todoCategory)">
                         <mat-expansion-panel-header>
-                            <mat-panel-title matTooltip="ID: {{todo._id['$oid']}}" >{{todo.owner}}</mat-panel-title>
+                            <mat-panel-title matTooltip="Category: {{todo.category}}" >{{todo.owner}}</mat-panel-title>
 
                         </mat-expansion-panel-header>
                         <mat-panel-description >Owner:{{todo.owner}}</mat-panel-description>

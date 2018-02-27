@@ -27,10 +27,36 @@ export class TodoPage {
         return title;
     }
 
+    clickInput() {
+        element(by.id('Panel-Header')).click();
+    }
+
     typeAOwner(owner: string) {
         const input = element(by.id('todoOwner'));
         input.click();
         input.sendKeys(owner);
+    }
+
+    typeACategory(category:string){
+        const input = element(by.id('todoCategory'));
+        input.click();
+        input.sendKeys(category);
+    }
+
+    typeABody(body:string){
+        const input = element(by.id('todoBody'));
+        input.click();
+        input.sendKeys(body);
+    }
+
+    chooseTureStatus() {
+        const input = element(by.id('true'));
+        input.click();
+    }
+
+    chooseFalseStatus() {
+        const input = element(by.id('false'));
+        input.click();
     }
 
     selectUpKey() {
@@ -41,6 +67,7 @@ export class TodoPage {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
     }
 
+    /*
     getCategory(category: string) {
         const input = element(by.id('todoCategory'));
         input.click();
@@ -48,20 +75,44 @@ export class TodoPage {
         const selectButton = element(by.id('submit'));
         selectButton.click();
     }
-/*
-need to figure out how to test boolean
-    getTodoByStatus() {
-        const input = element(by.id('todoStatus'));
-        input.click();
-        input.sendKeys(Key.TAB);
-    }
 */
-    getUniqueTodo(id: string) {
-        const todo = element(by.id(id)).getText();
+
+    getUniqueTodo(id:string) {
+        let todo = element(by.id(id)).getText();
         this.highlightElement(by.id(id));
+        return todo;
+    }
+
+    getUniqueTodoByCategory(category:string){
+        let todo = element(by.id(category)).getText();
+        this.highlightElement(by.id(category));
 
         return todo;
     }
+
+
+    /*
+    getUniqueTodoByCategory(category:string){
+        const todo = element(by.id(category)).getText();
+        this.highlightElement(by.id(category));
+
+        return todo;
+    }
+
+    getUniqueTodoByOwner(owner: string) {
+        const todo = element(by.id(owner)).getText();
+        this.highlightElement(by.id(owner));
+
+        return todo;
+    }
+
+    getUniqueTodoByBody(body: string) {
+        const todo = element(by.id(body)).getText();
+        this.highlightElement(by.id(body));
+
+        return todo;
+    }
+    */
 
     getTodos() {
         return element.all(by.className('todos'));
