@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 
 describe('Todo component', () => {
 
-    let todoComponent: todoComponent;
+    let todoComponent: TodoComponent;
     let fixture: ComponentFixture<TodoComponent>;
 
     let todoListServiceStub: {

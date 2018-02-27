@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
 import {AddTodoComponent} from './add-todo.component';
 
+
 @Component({
     selector: 'todo-list-component',
     templateUrl: 'todo-list.component.html',
@@ -22,6 +23,7 @@ export class TodoListComponent implements OnInit {
     public todoStatus: string;
     public todoBody: string;
     public todoCategory: string;
+    public loadReady = false;
 
     // The ID of the
     private highlightedID: {'$oid': string} = { '$oid': '' };
@@ -59,10 +61,11 @@ export class TodoListComponent implements OnInit {
         });
     }
 
-    public filterTodos(searchOwner: string, searchStatus: string, searchBody:string, searchCategory:string): Todo[] {
+    public filterTodos(searchStatus: string, searchBody:string, searchCategory:string): Todo[] {
 
         this.filteredTodos = this.todos;
-
+        console.log("here");
+        /*
         // Filter by owner
         if (searchOwner != null) {
             searchOwner = searchOwner.toLocaleLowerCase();
@@ -71,9 +74,11 @@ export class TodoListComponent implements OnInit {
                 return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
             });
         }
-
+        */
         // Filter by body
         if (searchBody != null) {
+            console.log("here2");
+            searchBody = searchBody.toLocaleLowerCase();
             this.filteredTodos = this.filteredTodos.filter(todo => {
                 return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
             });
@@ -81,6 +86,7 @@ export class TodoListComponent implements OnInit {
 
         //Filter by Category
         if (searchCategory != null) {
+            console.log("here3");
             searchCategory = searchCategory.toLocaleLowerCase();
 
             this.filteredTodos = this.filteredTodos.filter(todo => {
@@ -122,11 +128,11 @@ export class TodoListComponent implements OnInit {
         // Subscribe waits until the data is fully downloaded, then
         // performs an action on it (the first lambda)
 
-        const todos: Observable<Todo[]> = this.todoListService.getTodos();
+        let todos: Observable<Todo[]> = this.todoListService.getTodos();
         todos.subscribe(
             todos => {
                 this.todos = todos;
-                this.filterTodos(this.todoOwner, this.todoStatus, this.todoBody, this.todoCategory);
+                this.filterTodos(this.todoStatus, this.todoBody, this.todoCategory);
             },
             err => {
                 console.log(err);
@@ -136,6 +142,7 @@ export class TodoListComponent implements OnInit {
 
 
     loadService(): void {
+        this.loadReady=true;
         this.todoListService.getTodos(this.todoOwner).subscribe(
             todos => {
                 this.todos = todos;

@@ -28,7 +28,7 @@ export class TodoListService {
     filterByOwner(todoOwner?: string): void {
         if (!(todoOwner == null || todoOwner === '')) {
             if (this.parameterPresent('owner=') ) {
-                // there was a previous search by company that we need to clear
+                // there was a previous search by owner that we need to clear
                 this.removeParameter('owner=');
             }
             if (this.todoUrl.indexOf('?') !== -1) {
@@ -77,4 +77,5 @@ export class TodoListService {
         // Send post request to add a new todo with the todo data as the body with specified headers.
         return this.http.post<{'$oid': string}>(this.todoUrl + '/new', newTodo, httpOptions);
     }
+
 }

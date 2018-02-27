@@ -22,7 +22,7 @@ describe('Todo list', () => {
 
     beforeEach(() => {
         // stub TodoService for test purposes
-        TodoListServiceStub = {
+        todoListServiceStub = {
             getTodos: () => Observable.of([
                 {
                     _id: 'chris_id',
@@ -88,9 +88,9 @@ describe('Todo list', () => {
 
     it('todo list filters by owner', () => {
         expect(todoList.filteredTodos.length).toBe(3);
-        todoList.todoOwner = 'a';
+        todoList.todoOwner = 's';
         todoList.refreshTodos().subscribe(() => {
-            expect(todoList.filteredTodos.length).toBe(2);
+            expect(todoList.filteredTodos.length).toBe(1);
         });
     });
 

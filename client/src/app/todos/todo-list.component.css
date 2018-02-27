@@ -1,0 +1,56 @@
+#addTodo {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+#title input {
+    width:16%;
+    min-width: 100px;
+}
+
+#list-title {
+    padding-right: 14px;
+}
+
+
+
+
+
+
+.mat-card.mat-card{
+    margin: 0%;
+    background: none;
+}
+
+mat-expansion-panel {
+    background: none;
+    border-radius: 3px;
+}
+
+mat-panel-title.mat-expansion-panel-header-title{
+    font-size: 150%;
+}
+
+.mat-card-content{
+    align-content: center;
+}
+
+#Panel-Header{
+    font-size: 180%;
+    font-family: cursive;
+}
+
+#Row{
+    margin-left: 25%;
+}
+#Owner, #Body, #Category{
+    margin-left: 30px;
+}
+
+
+
+[layout-gt-sm="row"] {
+    background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/JrbItQz/abstract-clean-tangle-background-loop-4k-4096x2304_41ckcdtwl__F0000.png");
+}
+
+

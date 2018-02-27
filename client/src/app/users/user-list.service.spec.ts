@@ -35,7 +35,7 @@ describe('User list service: ', () => {
     );
 
     // We will need some url information from the userListService to meaningfully test company filtering;
-    // https://stackoverflow.com/questions/35987055/how-to-write-unit-testing-for-angular-2-typescript-for-private-methods-with-ja
+    // https://stackoverflow.com/questions/35987055/how-to-write-unit-tgetTodos(todoOwner)esting-for-angular-2-typescript-for-private-methods-with-ja
     let userListService: UserListService;
     let currentlyImpossibleToGenerateSearchUserUrl: string;
 
