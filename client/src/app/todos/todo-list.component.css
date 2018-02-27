@@ -14,7 +14,10 @@
 
 
 
-
+#addNewTodo{
+    background: none;
+    font-size: 150%;
+}
 
 
 .mat-card.mat-card{
