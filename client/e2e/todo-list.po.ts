@@ -67,15 +67,6 @@ export class TodoPage {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
     }
 
-    /*
-    getCategory(category: string) {
-        const input = element(by.id('todoCategory'));
-        input.click();
-        input.sendKeys(category);
-        const selectButton = element(by.id('submit'));
-        selectButton.click();
-    }
-*/
 
     getUniqueTodo(id:string) {
         let todo = element(by.id(id)).getText();
@@ -90,29 +81,6 @@ export class TodoPage {
         return todo;
     }
 
-
-    /*
-    getUniqueTodoByCategory(category:string){
-        const todo = element(by.id(category)).getText();
-        this.highlightElement(by.id(category));
-
-        return todo;
-    }
-
-    getUniqueTodoByOwner(owner: string) {
-        const todo = element(by.id(owner)).getText();
-        this.highlightElement(by.id(owner));
-
-        return todo;
-    }
-
-    getUniqueTodoByBody(body: string) {
-        const todo = element(by.id(body)).getText();
-        this.highlightElement(by.id(body));
-
-        return todo;
-    }
-    */
 
     getTodos() {
         return element.all(by.className('todos'));

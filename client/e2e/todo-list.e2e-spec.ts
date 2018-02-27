@@ -109,12 +109,12 @@ describe('Todo list', () => {
         page.navigateTo();
         page.clickAddTodoButton();
         element(by.id('ownerField')).sendKeys('Yujing Song');
-        element(by.id('categoryField')).sendKeys('Player');
+        element(by.id('categoryField')).sendKeys('UMM');
         element(by.id('bodyField')).sendKeys('is a hardworking girl');
         element(by.id('statusField')).sendKeys('true');
         element(by.id('confirmAddTodoButton')).click();
         setTimeout(() => {
-            expect(page.getUniqueTodoByCategory('Player')).toMatch('Yujing Song');
+            expect(page.getUniqueTodoByCategory('UMM')).toMatch('Yujing Song');
         }, 10000);
     });
 });
