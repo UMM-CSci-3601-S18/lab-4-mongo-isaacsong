@@ -1,7 +1,7 @@
-/*import {TodoPage} from './todo-list.po';
-import {browser, protractor, element, by} from 'protractor';
-import {Key} from 'selenium-webdriver';
-
+import {TodoPage} from './todo-list.po';
+// import {browser, protractor, element, by} from 'protractor';
+// import {Key} from 'selenium-webdriver';
+import {browser, protractor} from 'protractor';
 const origFn = browser.driver.controlFlow().execute;
 
 // https://hassantariqblog.wordpress.com/2015/11/09/reduce-speed-of-angular-e2e-protractor-tests/
@@ -30,92 +30,104 @@ describe('Todo list', () => {
         expect(page.getTodoTitle()).toEqual('Todos');
     });
 
+    it('should type something in filter name box and check that it returned correct element', () => {
 
-
-
-    it('should type something in filter owner box and check that it returned correct element', () => {
         page.navigateTo();
-        page.typeAOwner('t');
-        expect(page.getUniqueTodo('kittypage@surelogic.com')).toEqual('Kitty Page');
-        page.backspace();
-        page.typeAOwner('lynn');
-        expect(page.getUniqueTodo('lynnferguson@niquent.com')).toEqual('Lynn Ferguson');
+        page.clickInput();
+        page.typeAOwner('blanche');
+        expect(page.getUniqueTodo2(' In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse. ')).toEqual('Blanche');
+    });
+    it('Should have an add todo button', () => {
+        page.navigateTo();
+        expect(page.buttonExists()).toBeTruthy();
     });
 
 
+
+});
+
+    /*it('should click on the age 27 times and return 3 elements then ', () => {
+        page.navigateTo();
+        page.getTodoByAge();
+        for (let i = 0; i < 27; i++) {
+            page.selectUpKey();
+        }
+
+        expect(page.getUniqueTodo('stokesclayton@momentia.com')).toEqual('Stokes Clayton');
+
+        expect(page.getUniqueTodo('merrillparker@escenta.com')).toEqual('Merrill Parker');
+    });
 
     it('Should open the expansion panel and get the company', () => {
         page.navigateTo();
         page.getCompany('DATA');
         browser.actions().sendKeys(Key.ENTER).perform();
 
-        expect(page.getUniqueUser('valerieerickson@datagene.com')).toEqual('Valerie Erickson');
+        expect(page.getUniqueTodo('valerieerickson@datagene.com')).toEqual('Valerie Erickson');
 
         // This is just to show that the panels can be opened
         browser.actions().sendKeys(Key.TAB).perform();
         browser.actions().sendKeys(Key.ENTER).perform();
     });
 
-    it('Should allow us to filter users based on company', () => {
+    it('Should allow us to filter Todos based on company', () => {
         page.navigateTo();
         page.getCompany('o');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(4);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(4);
         });
-        expect(page.getUniqueUser('conniestewart@ohmnet.com')).toEqual('Connie Stewart');
-        expect(page.getUniqueUser('stokesclayton@momentia.com')).toEqual('Stokes Clayton');
-        expect(page.getUniqueUser('kittypage@surelogic.com')).toEqual('Kitty Page');
-        expect(page.getUniqueUser('margueritenorton@recognia.com')).toEqual('Marguerite Norton');
+        expect(page.getUniqueTodo('conniestewart@ohmnet.com')).toEqual('Connie Stewart');
+        expect(page.getUniqueTodo('stokesclayton@momentia.com')).toEqual('Stokes Clayton');
+        expect(page.getUniqueTodo('kittypage@surelogic.com')).toEqual('Kitty Page');
+        expect(page.getUniqueTodo('margueritenorton@recognia.com')).toEqual('Marguerite Norton');
     });
 
     it('Should allow us to clear a search for company and then still successfully search again', () => {
         page.navigateTo();
         page.getCompany('m');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(2);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(2);
         });
         page.clickClearCompanySearch();
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(10);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(10);
         });
         page.getCompany('ne');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(3);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(3);
         });
     });
 
     it('Should allow us to search for company, update that search string, and then still successfully search', () => {
         page.navigateTo();
         page.getCompany('o');
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(4);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(4);
         });
-        element(by.id('userCompany')).sendKeys('h');
+        element(by.id('todoCompany')).sendKeys('h');
         element(by.id('submit')).click();
-        page.getUsers().then(function(users) {
-            expect(users.length).toBe(1);
+        page.getTodos().then(function(todos) {
+            expect(todos.length).toBe(1);
         });
     });
 
 // For examples testing modal dialog related things, see:
 // https://code.tutsplus.com/tutorials/getting-started-with-end-to-end-testing-in-angular-using-protractor--cms-29318
 // https://github.com/blizzerand/angular-protractor-demo/tree/final
+*/
 
-    it('Should have an add user button', () => {
+/*
+    it('Should open a dialog box when add todo button is clicked', () => {
         page.navigateTo();
-        expect(page.buttonExists()).toBeTruthy();
+        expect(element(by.css('add-todo')).isPresent()).toBeFalsy('There should not be a modal window yet');
+        element(by.id('addNewTodo')).click();
+        expect(element(by.css('add-todo')).isPresent()).toBeTruthy('There should be a modal window now');
     });
 
-    it('Should open a dialog box when add user button is clicked', () => {
-        page.navigateTo();
-        expect(element(by.css('add-user')).isPresent()).toBeFalsy('There should not be a modal window yet');
-        element(by.id('addNewUser')).click();
-        expect(element(by.css('add-user')).isPresent()).toBeTruthy('There should be a modal window now');
-    });
 
-    it('Should actually add the user with the information we put in the fields', () => {
+    it('Should actually add the todo with the information we put in the fields', () => {
         page.navigateTo();
-        page.clickAddUserButton();
+        page.clickAddTodoButton();
         element(by.id('nameField')).sendKeys('Tracy Kim');
         // Need to use backspace because the default value is -1. If that changes, this will change too.
         element(by.id('ageField')).sendKeys(protractor.Key.BACK_SPACE).then(function() {
@@ -125,18 +137,18 @@ describe('Todo list', () => {
         });
         element(by.id('companyField')).sendKeys('Awesome Startup, LLC');
         element(by.id('emailField')).sendKeys('tracy@awesome.com');
-        element(by.id('confirmAddUserButton')).click();
+        element(by.id('confirmAddTodoButton')).click();
         // This annoying delay is necessary, otherwise it's possible that we execute the `expect`
-        // line before the add user has been fully processed and the new user is available
+        // line before the add todo has been fully processed and the new todo is available
         // in the list.
         setTimeout(() => {
-            expect(page.getUniqueUser('tracy@awesome.com')).toMatch('Tracy Kim.*'); // toEqual('Tracy Kim');
+            expect(page.getUniqueTodo('tracy@awesome.com')).toMatch('Tracy Kim.*'); // toEqual('Tracy Kim');
         }, 10000);
     });
 
-    it('Should allow us to put information into the fields of the add user dialog', () => {
+    it('Should allow us to put information into the fields of the add todo dialog', () => {
         page.navigateTo();
-        page.clickAddUserButton();
+        page.clickAddTodoButton();
         expect(element(by.id('nameField')).isPresent()).toBeTruthy('There should be a name field');
         element(by.id('nameField')).sendKeys('Dana Jones');
         expect(element(by.id('ageField')).isPresent()).toBeTruthy('There should be an age field');
@@ -152,4 +164,4 @@ describe('Todo list', () => {
         element(by.id('emailField')).sendKeys('dana@awesome.com');
         element(by.id('exitWithoutAddingButton')).click();
     });
-});
+});*/

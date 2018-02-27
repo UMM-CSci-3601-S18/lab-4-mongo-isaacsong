@@ -48,21 +48,22 @@ export class TodoPage {
         const selectButton = element(by.id('submit'));
         selectButton.click();
     }
-/*
-need to figure out how to test boolean
-    getTodoByStatus() {
-        const input = element(by.id('todoStatus'));
-        input.click();
-        input.sendKeys(Key.TAB);
+
+    getUniqueTodo(anID: string) {
+        const todo = element(by.id(anID)).getText();
+        this.highlightElement(by.id(anID));
+
+        return todo;
+
     }
-*/
-    getUniqueTodo(id: string) {
-        const todo = element(by.id(id)).getText();
-        this.highlightElement(by.id(id));
+
+
+    getUniqueTodo2(body: string) {
+        const todo = element(by.id(body)).getText();
+        this.highlightElement(by.id(body));
 
         return todo;
     }
-
     getTodos() {
         return element.all(by.className('todos'));
     }
@@ -82,4 +83,8 @@ need to figure out how to test boolean
         return element(by.id('addNewTodo')).click();
     }
 
+    clickInput() {
+        element(by.id('Panel-Header')).click();
+
+    }
 }
