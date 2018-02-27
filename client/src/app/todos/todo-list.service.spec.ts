@@ -83,7 +83,7 @@ describe('Todo list service: ', () => {
         req.flush(testTodos);
     });
 
-    //problems!!!!
+
     it('getTodos(todoOwner) adds appropriate param string to called URL', () => {
         todoListService.getTodos('s').subscribe(
             todos => expect(todos).toEqual(mTodos)

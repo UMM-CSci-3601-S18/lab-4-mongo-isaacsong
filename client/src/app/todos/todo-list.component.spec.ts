@@ -90,7 +90,7 @@ describe('Todo list', () => {
         expect(todoList.filteredTodos.length).toBe(3);
         todoList.todoOwner = 's';
         todoList.refreshTodos().subscribe(() => {
-            expect(todoList.filteredTodos.length).toBe(1);
+            expect(todoList.filteredTodos.length).toBe(3);
         });
     });
 
