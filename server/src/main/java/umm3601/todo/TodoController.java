@@ -15,10 +15,7 @@ import com.mongodb.util.JSON;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -144,21 +141,45 @@ public class TodoController {
     //Add to-do summary
     public String getTodoSummary() {
 
-        //get number of todos complete for each owner
-        AggregateIterable<Document> totalByOwner = todoCollection.aggregate(
+        float count = todoCollection.count();
+        float percent = 100/count;
+
+        AggregateIterable<Document> totOwner = todoCollection.aggregate(
             Arrays.asList(
                 Aggregates.group("$owner", Accumulators.sum("count", 1))
             )
         );
+        AggregateIterable<Document> finOwner = todoCollection.aggregate(
 
-        AggregateIterable<Document> doneByOwner = todoCollection.aggregate(
             Arrays.asList(
                 Aggregates.match(Filters.eq("status", true)),
-                Aggregates.group("$owner", Accumulators.sum("count", 1))
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+
             )
         );
 
-        return JSON.serialize(doneByOwner);
+
+        AggregateIterable<Document> catOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("category", "homework")),
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+            )
+        );
+
+
+        AggregateIterable<Document> bodyOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("body", "sunt")),
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+            )
+        );
+
+        List pipe = Arrays.asList(totOwner,finOwner,catOwner,bodyOwner);
+
+        return JSON.serialize(pipe);
     }
 
     public static void main(String[] args) {
