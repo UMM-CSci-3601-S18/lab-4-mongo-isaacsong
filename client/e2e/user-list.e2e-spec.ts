@@ -74,7 +74,7 @@ describe('User list', () => {
         expect(page.getUniqueUser('kittypage@surelogic.com')).toEqual('Kitty Page');
         expect(page.getUniqueUser('margueritenorton@recognia.com')).toEqual('Marguerite Norton');
     });
-
+/*
     it('Should allow us to clear a search for company and then still successfully search again', () => {
         page.navigateTo();
         page.getCompany('m');
@@ -90,7 +90,7 @@ describe('User list', () => {
             expect(users.length).toBe(3);
         });
     });
-
+*/
     it('Should allow us to search for company, update that search string, and then still successfully search', () => {
         page.navigateTo();
         page.getCompany('o');
